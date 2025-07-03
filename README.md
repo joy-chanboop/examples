@@ -88,7 +88,7 @@ For questions, suggestions, or collaboration inquiries, feel free to contact us 
 
 ## License
 
-This project is open source under the MIT License.
+This project is open source under the [MIT License](https://github.com/scrapeless-ai/examples/blob/main/LICENSE).
 
 ---
 
