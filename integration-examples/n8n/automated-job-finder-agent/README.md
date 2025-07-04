@@ -31,7 +31,7 @@ This automation template helps you track the latest job listings from the Y Comb
 ## Requirements
 
 - **Scrapeless API Key**: Scrapeless Service request credentials.
-  - [Log in](https://app.scrapeless.com/passport/login?utm_source=github&utm_medium=job-finder-agent) to the Scrapeless Dashboard
+  - [Log in](https://app.scrapeless.com/passport/login?utm_source=github&utm_medium=n8n-integration&utm_campaign=job-finder-agent) to the Scrapeless Dashboard
   - Then click "**Setting**" on the left -> select "**API Key Management**" -> click "**Create API Key**". Finally, click the API Key you created to copy it. ![Scrapeless API Key](../../get-scrapeless-api-key.png)
 - **n8n Instance**: Self-hosted or n8n.cloud account.
 - **Google Account**: For Google Sheets API access.
