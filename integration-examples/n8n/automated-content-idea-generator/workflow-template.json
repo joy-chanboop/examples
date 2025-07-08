@@ -1,0 +1,187 @@
+{
+  "name": "Automated Content Idea Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "569b7add-3884-4bd1-8346-939d836a1f96",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "q": "\"digital marketing trends 2025\" OR \"latest marketing strategies\" OR \"new marketing tools\""
+      },
+      "type": "n8n-nodes-scrapeless.scrapeless",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "219bbade-4f0f-4625-9fee-a4c9b11d215b",
+      "name": "Google Search1",
+      "credentials": {
+        "scrapelessApi": {
+          "id": "kAh2nXXBvgiaJEz6",
+          "name": "Scrapeless account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Analyze the search data above and generate 10 content ideas following the format specified. \n\nSearch Topic: Digital Marketing Trends 2025\nFocus: Create actionable content ideas that fill gaps in current market discussions.",
+        "options": {
+          "systemMessage": "You are an expert content strategist and idea generator. Your job is to analyze Google search data from Scrapeless and create compelling, unique content ideas that will engage audiences and drive traffic.\n\nSearch Data Analysis:\n- Discussion Forums: {{ $json.discussion_and_forums }}\n- Related Questions: {{ $json.related_questions }}\n- Related Searches: {{ $json.related_searches }}\n- Inline Videos: {{ $json.inline_videos }}\n- Inline Images: {{ $json.inline_images }}\n- Search Query: {{ $json.search_information.query_displayed }}\n\nBased on this comprehensive search intelligence, generate exactly 10 unique content ideas. For each idea, provide:\n\n1. **Headline**: Catchy, click-worthy title (under 60 characters)\n2. **Content Type**: Blog post, Video script, Social media series, Email newsletter, etc.\n3. **Target Audience**: Who this content is perfect for\n4. **Unique Angle**: What makes this different from existing content\n5. **Key Points**: 3-4 main points to cover (use insights from related questions)\n6. **SEO Keywords**: 2-3 primary keywords (from related searches)\n7. **Engagement Hook**: Opening line or hook to grab attention\n8. **Video Inspiration**: Reference specific YouTube videos or timestamps if relevant\n9. **Call-to-Action**: How readers should engage or what to do next\n\nFocus on:\n- Solving problems identified in \"related_questions\"\n- Creating content gaps not covered by existing videos/discussions\n- Leveraging trending topics from forums and social discussions\n- Building on successful video content formats and key moments\n- Targeting keywords from \"related_searches\" section\n\nMake each idea feel exciting, actionable, and directly inspired by real search demand!\n\nExample output format:\n**Idea 1:**\n- Headline: \"5 AI Marketing Tools That Actually Work in 2025\"\n- Content Type: Blog post + YouTube video\n- Target Audience: Digital marketers and small business owners\n- Unique Angle: Real testing results vs marketing hype\n- Key Points:"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "de8514ef-cd19-4832-840a-69c9025a87d5",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-20250514",
+          "cachedResultName": "Claude 4 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        440,
+        220
+      ],
+      "id": "77610cb2-54e3-435a-acb8-26adcfc7794a",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "Ivo4Mlq3i8nAyzTQ",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "teamId": "87edd745-52db-4034-ad37-aa0a85c9a0d5",
+        "title": "={{ $json.title }}",
+        "additionalFields": {
+          "description": "={{ $json.description }}"
+        }
+      },
+      "type": "n8n-nodes-base.linear",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "163731cf-5408-4ea0-9aca-6416b6dcc660",
+      "name": "Create an issue",
+      "credentials": {
+        "linearApi": {
+          "id": "aF1eFyhUAmqlAWmH",
+          "name": "Linear account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse Claude's response into organized, clear sections\nconst claudeOutput = $json.output;\n\n// Extract the first headline for Linear title\nconst firstHeadlineMatch = claudeOutput.match(/\\*\\*Idea 1:\\*\\*[\\s\\S]*?- \\*\\*Headline\\*\\*:\\s*\"([^\"]+)\"/);\nconst firstHeadline = firstHeadlineMatch ? firstHeadlineMatch[1] : \"Content Ideas Generated\";\n\n// Split into individual ideas\nconst ideaSections = claudeOutput.split(/\\*\\*Idea \\d+:\\*\\*/);\nconst ideas = ideaSections.slice(1); // Remove empty first element\n\n// Parse each idea into structured format\nconst parsedIdeas = ideas.map((idea, index) => {\n  const lines = idea.split('\\n').filter(line => line.trim());\n  \n  const headline = lines.find(line => line.includes('- **Headline**:'))?.replace('- **Headline**:', '').replace(/\"/g, '').trim() || `Idea ${index + 1}`;\n  const contentType = lines.find(line => line.includes('- **Content Type**:'))?.replace('- **Content Type**:', '').trim() || '';\n  const audience = lines.find(line => line.includes('- **Target Audience**:'))?.replace('- **Target Audience**:', '').trim() || '';\n  const angle = lines.find(line => line.includes('- **Unique Angle**:'))?.replace('- **Unique Angle**:', '').trim() || '';\n  const keyPoints = lines.find(line => line.includes('- **Key Points**:'))?.replace('- **Key Points**:', '').trim() || '';\n  const keywords = lines.find(line => line.includes('- **SEO Keywords**:'))?.replace('- **SEO Keywords**:', '').trim() || '';\n  const hook = lines.find(line => line.includes('- **Engagement Hook**:'))?.replace('- **Engagement Hook**:', '').replace(/\"/g, '').trim() || '';\n  const cta = lines.find(line => line.includes('- **Call-to-Action**:'))?.replace('- **Call-to-Action**:', '').trim() || '';\n  \n  return {\n    number: index + 1,\n    headline,\n    contentType,\n    audience,\n    angle,\n    keyPoints,\n    keywords,\n    hook,\n    cta\n  };\n});\n\n// Create table of contents\nconst tableOfContents = parsedIdeas.map(idea => \n  `${idea.number}. **${idea.headline}** *(${idea.contentType})*`\n).join('\\n');\n\n// Format each idea as a clear section\nconst formattedIdeas = parsedIdeas.map(idea => `\n## ${idea.number}. ${idea.headline}\n\n**📝 Content Type:** ${idea.contentType}\n**🎯 Target Audience:** ${idea.audience}\n**💡 Unique Angle:** ${idea.angle}\n\n**📋 Key Points to Cover:**\n${idea.keyPoints}\n\n**🔍 SEO Keywords:** \\`${idea.keywords}\\`\n\n**🎣 Engagement Hook:**\n> \"${idea.hook}\"\n\n**📢 Call-to-Action:** ${idea.cta}\n\n---\n`).join('\\n');\n\n// Build final formatted description\nconst formattedDescription = `# 🎯 Content Ideas Generated\n\n## 📋 Table of Contents\n${tableOfContents}\n\n---\n\n${formattedIdeas}\n\n## 📊 Quick Stats\n- **Total Ideas Generated:** ${parsedIdeas.length}\n- **Content Types:** ${[...new Set(parsedIdeas.map(i => i.contentType.split('+')[0].trim()))].join(', ')}\n- **Primary Focus:** Digital Marketing Trends 2025\n\n## 🚀 Next Steps\n1. **Review** each idea and select your favorites\n2. **Assign** ideas to team members based on expertise\n3. **Schedule** content creation in your calendar\n4. **Track progress** using Linear's status updates\n\n---\n**🤖 Generated by:** n8n + Scrapeless + Claude AI  \n**📅 Date:** ${new Date().toLocaleDateString()}  \n**🔍 Search Topic:** Digital Marketing Trends 2025  \n**⏱️ Time Saved:** ~3 hours of manual research`;\n\nreturn {\n  title: firstHeadline,\n  description: formattedDescription,\n  ideas_count: parsedIdeas.length,\n  generation_date: new Date().toISOString(),\n  source: \"automated-content-research\",\n  parsed_ideas: parsedIdeas // For potential future use\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        820,
+        0
+      ],
+      "id": "83f2b183-2cda-4187-ba28-08bd1db7187d",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Search1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Search1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an issue": {
+      "main": [
+        []
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Create an issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d07ee134-8fd0-48cf-b4b1-e282f5e6f3db",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "48f6636340b0bc466948b45a9ccd754670f078abbb5e46764237a037a3b0d8f1"
+  },
+  "id": "IJnlW8NTJqlkB0Ll",
+  "tags": []
+}
