@@ -7,10 +7,12 @@ async def main():
         "token": "your token",
         "sessionTTL": 1000,
         "sessionName": "Proxy Demo",
-        # Sets the target country/region for the proxy, sending requests via an IP address from that region. You can specify a country code (e.g., US for the United States, GB for the United Kingdom, ANY for any country). See country codes for all supported options."proxyCountry": "ANY",
+        # Sets the target country/region for the proxy, sending requests via an IP address from that region. You can specify a country code (e.g., US for the United States, GB for the United Kingdom, ANY for any country). See country codes for all supported options.
+        "proxyCountry": "ANY",
     }
     query_string = urlencode(scrapeless_params)
-    scrapeless_connection_url = f"wss://browser.scrapeless.com/api/v2/browser?{query_string}"async with AsyncWebCrawler(
+    scrapeless_connection_url = f"wss://browser.scrapeless.com/api/v2/browser?{query_string}"
+    async with AsyncWebCrawler(
         config=BrowserConfig(
             headless=False,
             browser_mode="cdp",
