@@ -10,7 +10,8 @@ async def main():
         "profileId": "your profileId", # create profile on scrapeless
     }
     query_string = urlencode(scrapeless_params)
-    scrapeless_connection_url = f"wss://browser.scrapeless.com/api/v2/browser?{query_string}"async with AsyncWebCrawler(
+    scrapeless_connection_url = f"wss://browser.scrapeless.com/api/v2/browser?{query_string}"
+    async with AsyncWebCrawler(
         config=BrowserConfig(
             headless=False,
             browser_mode="cdp",
