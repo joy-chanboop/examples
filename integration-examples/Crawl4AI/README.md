@@ -56,9 +56,6 @@ Scrapeless Cloud Browser Solves These Pain Points Perfectly
 ### 2. Quick Start
 
 ```python
-from urllib.parse import urlencode
-from Crawl4AI import BrowserConfig, AsyncWebCrawler
-
 scrapeless_params = {
     "token": "get your token from https://www.scrapeless.com",
     "sessionName": "Scrapeless browser",
@@ -96,11 +93,11 @@ async def main():
         "token": "your token",
         "sessionTTL": 1000,
         "sessionName": "Proxy Demo",
-        "proxyCountry": "ANY",  # US, GB, or ANY
+        # Sets the target country/region for the proxy, sending requests via an IP address from that region. You can specify a country code (e.g., US for the United States, GB for the United Kingdom, ANY for any country). See country codes for all supported options.
+        "proxyCountry": "ANY",
     }
     query_string = urlencode(scrapeless_params)
     scrapeless_connection_url = f"wss://browser.scrapeless.com/api/v2/browser?{query_string}"
-
     async with AsyncWebCrawler(
         config=BrowserConfig(
             headless=False,
@@ -117,10 +114,10 @@ async def main():
         )
         print("-" * 20)
         print(f'Status Code: {result.status_code}')
+        print("-" * 20)
         print(f'Title: {result.metadata["title"]}')
         print(f'Description: {result.metadata["description"]}')
         print("-" * 20)
-
 asyncio.run(main())
 ```
 
@@ -136,11 +133,16 @@ from urllib.parse import quote, urlencode
 from Crawl4AI import CrawlerRunConfig, BrowserConfig, AsyncWebCrawler
 
 async def main():
+    # customize browser fingerprint
     fingerprint = {
         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.1.2.3 Safari/537.36",
         "platform": "Windows",
-        "screen": {"width": 1280, "height": 1024},
-        "localization": {"languages": ["zh-HK", "en-US", "en"], "timezone": "Asia/Hong_Kong"}
+        "screen": {
+            "width": 1280, "height": 1024
+        },
+        "localization": {
+            "languages": ["zh-HK", "en-US", "en"], "timezone": "Asia/Hong_Kong",
+        }
     }
 
     fingerprint_json = json.dumps(fingerprint)
@@ -154,7 +156,6 @@ async def main():
     }
     query_string = urlencode(scrapeless_params)
     scrapeless_connection_url = f"wss://browser.scrapeless.com/api/v2/browser?{query_string}"
-
     async with AsyncWebCrawler(
         config=BrowserConfig(
             headless=False,
@@ -171,10 +172,10 @@ async def main():
         )
         print("-" * 20)
         print(f'Status Code: {result.status_code}')
+        print("-" * 20)
         print(f'Title: {result.metadata["title"]}')
         print(f'Description: {result.metadata["description"]}')
         print("-" * 20)
-
 asyncio.run(main())
 ```
 
@@ -195,11 +196,10 @@ async def main():
         "token": "your token",
         "sessionTTL": 1000,
         "sessionName": "Profile Demo",
-        "profileId": "your profileId",  # create profile on Scrapeless
+        "profileId": "your profileId", # create profile on scrapeless
     }
     query_string = urlencode(scrapeless_params)
     scrapeless_connection_url = f"wss://browser.scrapeless.com/api/v2/browser?{query_string}"
-
     async with AsyncWebCrawler(
         config=BrowserConfig(
             headless=False,
@@ -216,10 +216,10 @@ async def main():
         )
         print("-" * 20)
         print(f'Status Code: {result.status_code}')
+        print("-" * 20)
         print(f'Title: {result.metadata["title"]}')
         print(f'Description: {result.metadata["description"]}')
         print("-" * 20)
-
 asyncio.run(main())
 ```
 
@@ -229,6 +229,7 @@ asyncio.run(main())
 
 * [Scrapeless Browser](http://192.168.31.36:3002/en/scraping-browser/quickstart/introduction/?utm_source=github&utm_medium=integration&utm_campaign=crawl4ai)
 * [Crawl4AI GitHub](https://github.com/unclecode/crawl4ai?utm_source=github&utm_medium=integration&utm_campaign=crawl4ai)
+
 
 
 
