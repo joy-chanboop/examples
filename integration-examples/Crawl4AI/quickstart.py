@@ -1,4 +1,3 @@
-```python
 scrapeless_params = {
     "token": "get your token from https://www.scrapeless.com",
     "sessionName": "Scrapeless browser",
@@ -18,7 +17,6 @@ AsyncWebCrawler(
         cdp_url=scrapeless_connection_url
     )
 )
-````
 
 
 
