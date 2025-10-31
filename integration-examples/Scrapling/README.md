@@ -131,7 +131,7 @@ from bs4 import BeautifulSoup
 from scrapling.fetchers import DynamicSession
 
 config = {
-    "token": "sk_KjSLsMqzANnOlnliHS9coe6UOdqv1E5Cwd27E81d5QUHzDd09NDFH5ntyUsbQxkj",
+    "token": "scrapeless api key",
     "sessionName": "Data Scraping",
     "sessionTTL": "900",  
     "proxyCountry": "ANY",
@@ -339,5 +339,6 @@ with DynamicSession(cdp_url=ws_endpoint, disable_resources=True) as s:
 This example demonstrates how DynamicSession and Scrapeless can work together to create a stable, reusable long-session environment.
 
 Within the same session, you can request multiple pages without restarting the browser, maintain login states, cookies, and local storage, and achieve profile isolation and session persistence.
+
 
 
