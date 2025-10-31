@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from scrapling.fetchers import DynamicSession
 
 config = {
-    "token": "sk_KjSLsMqzANnOlnliHS9coe6UOdqv1E5Cwd27E81d5QUHzDd09NDFH5ntyUsbQxkj",
+    "token": "scrapeless api key",
     "sessionName": "Data Scraping",
     "sessionTTL": "900",  
     "proxyCountry": "ANY",
