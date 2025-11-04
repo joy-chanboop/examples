@@ -106,7 +106,6 @@ Using Browser MCP Server, Claude can perform complex web operations—such as na
 
 ![Case 1: Web Interaction and Data Extraction Automation with Claude](https://assets.scrapeless.com/prod/posts/mcp-integration-guide/821f2d91005b4c7649636b89a14e25d5.gif)
 
-
 #### Case 2: Bypassing Cloudflare to Retrieve Target Page Content
 Using the Browser MCP Server, Cloudflare-protected pages are automatically accessed, and upon completion, the page content is extracted and returned in Markdown format.
 
@@ -123,7 +122,6 @@ Here’s what makes it truly powerful:
 - Edge Nodes Worldwide: Deploy on multiple global nodes for ultra-low latency and 2–3× faster startup than other cloud browsers.
 - Anti-Detection: Built-in solutions for reCAPTCHA, Cloudflare Turnstile, and AWS WAF, ensuring uninterrupted automation even under strict protection layers.
 - Visual Debugging: Achieve human-machine interactive debugging and real-time proxy traffic monitoring via Live View. Replay sessions page-by-page through Session Recordings to quickly identify issues and optimize operations.
-
 
 ### Integrations
 
