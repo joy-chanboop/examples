@@ -86,7 +86,7 @@ Scrapeless supports residential IPs across 195 countries. Users can configure th
 ```python
 import asyncio
 from urllib.parse import urlencode
-from Crawl4AI import CrawlerRunConfig, BrowserConfig, AsyncWebCrawler
+from crawl4ai import CrawlerRunConfig, BrowserConfig, AsyncWebCrawler
 
 async def main():
     scrapeless_params = {
@@ -229,6 +229,7 @@ asyncio.run(main())
 
 * [Scrapeless Browser](https://www.scrapeless.com/en/product/scraping-browser?utm_source=github&utm_medium=integration&utm_campaign=crawl4ai)
 * [Crawl4AI GitHub](https://github.com/unclecode/crawl4ai?utm_source=github&utm_medium=integration&utm_campaign=crawl4ai)
+
 
 
 
